@@ -1,0 +1,85 @@
+ ### Crear un nuevo usuario
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Leonardo Castañeda"
+}
+
+###
+
+### Obtener todos los usuarios
+GET http://localhost:3000/users
+Accept: application/json
+
+###
+
+### Obtener un usuario por ID
+GET http://localhost:3000/users/1
+Accept: application/json
+
+###
+
+### Actualizar un usuario
+PUT http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "name": "Leonardo C."
+}
+
+###
+
+### Eliminar un usuario
+DELETE http://localhost:3000/users/1
+Accept: application/json
+
+###
+
+### Crear un contacto para un usuario
+POST http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Carlos",
+  "lastName": "Perez",
+  "email": "carlos.perez@email.com",
+  "phone": "555-9876",
+  "isFavorite": false,
+  "userId": 1
+}
+
+###
+
+### Obtener todos los contactos
+GET http://localhost:3000/contacts
+Accept: application/json
+
+###
+
+### Obtener un contacto por ID
+GET http://localhost:3000/contacts/1
+Accept: application/json
+
+###
+
+### Actualizar un contacto
+PUT http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "contactId": 1,
+  "firstName": "Carlos",
+  "lastName": "Gomez",
+  "email": "carlos.gomez@email.com",
+  "phone": "555-6543",
+  "isFavorite": true,
+  "userId": 1
+}
+
+###
+
+### Eliminar un contacto
+DELETE http://localhost:3000/contacts/1
+Accept: application/json
