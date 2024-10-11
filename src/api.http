@@ -42,9 +42,9 @@ POST http://localhost:3000/contacts
 Content-Type: application/json
 
 {
-  "firstName": "Carlinhos",
-  "lastName": "Perez",
-  "email": "carlinhos.perez@email.com",
+  "firstName": "Maildita",
+  "lastName": "Nerea",
+  "email": "maldita.nerea@email.com",
   "phone": "555-9876",
   "isFavorite": false,
   "userId": 1
@@ -59,7 +59,7 @@ Accept: application/json
 ###
 
 ### Obtener un contacto por ID
-GET http://localhost:3000/contacts/1
+GET http://localhost:3000/contacts/6
 Accept: application/json
 
 ###
@@ -80,5 +80,12 @@ Content-Type: application/json
 ###
 
 ### Eliminar un contacto
-DELETE http://localhost:3000/contacts/1
+DELETE http://localhost:3000/contacts/6
+Accept: application/json
+
+###
+
+### Recuperar un contacto
+
+PATCH http://localhost:3000/contacts/6/recover
 Accept: application/json

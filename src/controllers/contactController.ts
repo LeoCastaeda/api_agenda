@@ -18,20 +18,36 @@ export const createContact = async (req: Request, res: Response) => {
         });
         res.status(201).send(contact);
     } catch (error) {
-        res.status(400).send('Error creating contact');
+        res.status(400).send('Contact could not be created');
     }
 };
 
 export const getContacts = async (req: Request, res: Response) => {
     try {                   
         const contacts = await prisma.contact.findMany({
-           
+          where: {
+            isDeleted: false
+          } 
         });
         res.status(200).send(contacts); 
     } catch (error) {
-        res.status(404).send('Error getting contacts');      
+        res.status(404).send('Contacts could not be found');      
     }
-};    
+};
+
+export const getContact = async (req: Request, res: Response) => {
+    const { contactId } = req.params;
+    try {                   
+        const contact = await prisma.contact.findFirst({
+          where: {
+            id: Number(contactId),
+          } 
+        });
+        res.status(200).send(contact); 
+    } catch (error) {
+        res.status(404).send('Contact could not be found');      
+    }
+};
 
 export const updateContact = async (req: Request, res: Response) => {           
     const { contactId } = req.params;
@@ -51,7 +67,7 @@ export const updateContact = async (req: Request, res: Response) => {
         });
         res.status(200).send(contact);  
     } catch (error) {   
-        res.status(400).send('Error updating contact');              
+        res.status(400).send('Contact could not be updated');              
     }
 };  
 
@@ -59,14 +75,17 @@ export const deleteContact = async (req: Request, res: Response) => {
     const { contactId } = req.params;   
 
     try {
-        const contact = await prisma.contact.delete({
+        const contact = await prisma.contact.update({
             where: {
                 id: Number(contactId),  
+            },
+            data: {
+                isDeleted: true,
             },
         });
         res.status(204).send(contact);
     } catch (error) {
-        res.status(400).send('Error deleting contact');
+        res.status(400).send('Contact could not be deleted');
     }   
 }   
 
@@ -98,12 +117,12 @@ export const recoverContact = async (req: Request, res: Response) => {
                 id: Number(contactId),
             },
             data: {
-                isFavorite: false,
+                isDeleted: false,
             },
         });
         res.status(200).send(contact);
     } catch (error) {
-        res.status(400).send('Error updating contact');                  
+        res.status(400).send('Contact could not be restored');                  
     }   
 };
 
