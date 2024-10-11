@@ -89,3 +89,10 @@ Accept: application/json
 
 PATCH http://localhost:3000/contacts/6/recover
 Accept: application/json
+
+###
+
+### Marcar un contacto como favorito y al contrario
+
+PATCH http://localhost:3000/contacts/6/favorites
+Accept: application/json

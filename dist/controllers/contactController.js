@@ -27,7 +27,7 @@ const createContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(201).send(contact);
     }
     catch (error) {
-        res.status(400).send('Error creating contact');
+        res.status(400).send('Contact could not be created');
     }
 });
 exports.createContact = createContact;
@@ -41,7 +41,7 @@ const getContacts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(200).send(contacts);
     }
     catch (error) {
-        res.status(404).send('Error getting contacts');
+        res.status(404).send('Contacts could not be found');
     }
 });
 exports.getContacts = getContacts;
@@ -56,7 +56,7 @@ const getContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(200).send(contact);
     }
     catch (error) {
-        res.status(404).send('Error getting contact');
+        res.status(404).send('Contact could not be found');
     }
 });
 exports.getContact = getContact;
@@ -78,7 +78,7 @@ const updateContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(200).send(contact);
     }
     catch (error) {
-        res.status(400).send('Error updating contact');
+        res.status(400).send('Contact could not be updated');
     }
 });
 exports.updateContact = updateContact;
@@ -96,22 +96,37 @@ const deleteContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(204).send(contact);
     }
     catch (error) {
-        res.status(400).send('Error deleting contact');
+        res.status(400).send('Contact could not be deleted');
     }
 });
 exports.deleteContact = deleteContact;
 const markAsFavorite = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contactId } = req.params;
     try {
-        const contact = yield prisma.contact.update({
-            where: {
-                id: Number(contactId),
-            },
-            data: {
-                isFavorite: true,
-            },
-        });
-        res.status(200).send(contact);
+        try {
+            const contact = yield prisma.contact.update({
+                where: {
+                    id: Number(contactId),
+                    isFavorite: false
+                },
+                data: {
+                    isFavorite: true,
+                },
+            });
+            res.status(200).send(contact);
+        }
+        catch (_a) {
+            const contact = yield prisma.contact.update({
+                where: {
+                    id: Number(contactId),
+                    isFavorite: true
+                },
+                data: {
+                    isFavorite: false,
+                },
+            });
+            res.status(200).send(contact);
+        }
     }
     catch (error) {
         res.status(400).send('Error updating contact');
@@ -132,7 +147,7 @@ const recoverContact = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(200).send(contact);
     }
     catch (error) {
-        res.status(400).send('Could not restore contact');
+        res.status(400).send('Contact could not be restored');
     }
 });
 exports.recoverContact = recoverContact;
