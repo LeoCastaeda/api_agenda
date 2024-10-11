@@ -42,9 +42,9 @@ POST http://localhost:3000/contacts
 Content-Type: application/json
 
 {
-  "firstName": "Carlos",
+  "firstName": "Carlinhos",
   "lastName": "Perez",
-  "email": "carlos.perez@email.com",
+  "email": "carlinhos.perez@email.com",
   "phone": "555-9876",
   "isFavorite": false,
   "userId": 1
@@ -65,16 +65,15 @@ Accept: application/json
 ###
 
 ### Actualizar un contacto
-PUT http://localhost:3000/contacts
+PUT http://localhost:3000/contacts/1
 Content-Type: application/json
 
 {
-  "contactId": 1,
   "firstName": "Carlos",
-  "lastName": "Gomez",
-  "email": "carlos.gomez@email.com",
+  "lastName": "Gomez Arana",
+  "email": "carlos.gomezarana@email.com",
   "phone": "555-6543",
-  "isFavorite": true,
+  "isFavorite": false,
   "userId": 1
 }
 

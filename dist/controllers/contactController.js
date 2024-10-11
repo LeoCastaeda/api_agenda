@@ -24,24 +24,20 @@ const createContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 userId,
             },
         });
-        res.status(201).json(contact);
+        res.status(201).send(contact);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error creating contact' });
+        res.status(400).send('Error creating contact');
     }
 });
 exports.createContact = createContact;
 const getContacts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const contacts = yield prisma.contact.findMany({
-            where: {
-                userId: Number(req.params.userId),
-            },
-        });
-        res.status(200).json(contacts);
+        const contacts = yield prisma.contact.findMany({});
+        res.status(200).send(contacts);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error getting contacts' });
+        res.status(404).send('Error getting contacts');
     }
 });
 exports.getContacts = getContacts;
@@ -60,10 +56,10 @@ const updateContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 phone,
             },
         });
-        res.status(200).json(contact);
+        res.status(200).send(contact);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error updating contact' });
+        res.status(400).send('Error updating contact');
     }
 });
 exports.updateContact = updateContact;
@@ -75,10 +71,10 @@ const deleteContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 id: Number(contactId),
             },
         });
-        res.status(200).json(contact);
+        res.status(204).send(contact);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error deleting contact' });
+        res.status(400).send('Error deleting contact');
     }
 });
 exports.deleteContact = deleteContact;
@@ -93,10 +89,10 @@ const markAsFavorite = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 isFavorite: true,
             },
         });
-        res.status(200).json(contact);
+        res.status(200).send(contact);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error updating contact' });
+        res.status(400).send('Error updating contact');
     }
 });
 exports.markAsFavorite = markAsFavorite;
@@ -111,10 +107,10 @@ const recoverContact = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 isFavorite: false,
             },
         });
-        res.status(200).json(contact);
+        res.status(200).send(contact);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error updating contact' });
+        res.status(400).send('Error updating contact');
     }
 });
 exports.recoverContact = recoverContact;
