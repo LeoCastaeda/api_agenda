@@ -120,4 +120,18 @@ export const recoverContact = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Error updating contact' });                  
     }   
 };
+export const getContact = async (req: Request, res: Response) => {
+    const { contactId } = req.params;
+    try {                   
+        const contact = await prisma.contact.findFirst({
+          where: {
+            id: Number(contactId),
+          } 
+        });
+        res.status(200).send(contact); 
+    } catch (error) {
+        res.status(404).send('Contact could not be found');      
+    }
+};
+
 
