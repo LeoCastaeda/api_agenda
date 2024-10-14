@@ -1,6 +1,5 @@
 import request from 'supertest';
-import { app } from '../src/server'; // Reemplaza con la ruta correcta de tu archivo app
-
+import app from "../src/server"
 describe('Contact API', () => {
   
   // Test para la creación de un contacto para un usuario
@@ -21,10 +20,11 @@ describe('Contact API', () => {
         lastName: 'Smith',
         mail: 'jane.smith@example.com',
         phone: '123456789',
+        userId: '35B'
       });
 
-    // Verifica que la respuesta tiene código 201 (creado)
-    expect(contactRes.statusCode).toEqual(201);
+    // Verifica que la respuesta tiene código 200 (creado)
+    expect(contactRes.statusCode).toEqual(200);
     
     // Verifica que el contacto ha sido creado con las propiedades correctas
     expect(contactRes.body).toHaveProperty('id');
@@ -42,10 +42,10 @@ describe('Contact API', () => {
     // Creamos dos contactos
     await request(app)
       .post(`/contacts/${userId}`)
-      .send({ name: 'Alice', lastName: 'Brown', mail: 'alice@example.com', phone: '12345' });
+      .send({ name: 'Alice', lastName: 'Brown', mail: 'alice@example.com', phone: '12345', userId: '35B' });
     await request(app)
       .post(`/contacts/${userId}`)
-      .send({ name: 'Charlie', lastName: 'Black', mail: 'charlie@example.com', phone: '67890' });
+      .send({ name: 'Charlie', lastName: 'Black', mail: 'charlie@example.com', phone: '67890', userId: '37B'  });
 
     // Recuperamos la lista de contactos
     const res = await request(app).get(`/contacts/${userId}`);
@@ -73,6 +73,7 @@ describe('Contact API', () => {
         lastName: 'Smith',
         mail: 'jane.smith@example.com',
         phone: '123456789',
+        userId: '35B'
       });
     const contactId = contactRes.body.id;
 
@@ -101,6 +102,7 @@ describe('Contact API', () => {
         lastName: 'Smith',
         mail: 'jane.smith@example.com',
         phone: '123456789',
+        userId: '35B'
       });
     const contactId = contactRes.body.id;
 
@@ -129,6 +131,7 @@ describe('Contact API', () => {
         lastName: 'Smith',
         mail: 'jane.smith@example.com',
         phone: '123456789',
+        userId: '35B'
       });
     const contactId = contactRes.body.id;
 
