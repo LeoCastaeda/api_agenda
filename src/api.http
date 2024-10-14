@@ -42,9 +42,9 @@ POST http://localhost:3000/contacts
 Content-Type: application/json
 
 {
-  "firstName": "Carlos",
-  "lastName": "Perez",
-  "email": "carlos.perez@email.com",
+  "firstName": "Maildita",
+  "lastName": "Nerea",
+  "email": "maldita.nerea@email.com",
   "phone": "555-9876",
   "isFavorite": false,
   "userId": 1
@@ -59,27 +59,40 @@ Accept: application/json
 ###
 
 ### Obtener un contacto por ID
-GET http://localhost:3000/contacts/1
+GET http://localhost:3000/contacts/6
 Accept: application/json
 
 ###
 
 ### Actualizar un contacto
-PUT http://localhost:3000/contacts
+PUT http://localhost:3000/contacts/1
 Content-Type: application/json
 
 {
-  "contactId": 1,
   "firstName": "Carlos",
-  "lastName": "Gomez",
-  "email": "carlos.gomez@email.com",
+  "lastName": "Gomez Arana",
+  "email": "carlos.gomezarana@email.com",
   "phone": "555-6543",
-  "isFavorite": true,
+  "isFavorite": false,
   "userId": 1
 }
 
 ###
 
 ### Eliminar un contacto
-DELETE http://localhost:3000/contacts/1
+DELETE http://localhost:3000/contacts/6
+Accept: application/json
+
+###
+
+### Recuperar un contacto
+
+PATCH http://localhost:3000/contacts/6/recover
+Accept: application/json
+
+###
+
+### Marcar un contacto como favorito y al contrario
+
+PATCH http://localhost:3000/contacts/6/favorites
 Accept: application/json
