@@ -74,22 +74,34 @@ export const deleteContact = async (req: Request, res: Response) => {
 
 export const markAsFavorite = async (req: Request, res: Response) => {
     const { contactId } = req.params;   
-
-    try {    
-        const contact = await prisma.contact.update({
-            where: {
-                id: Number(contactId),
-            },
-            data: {
-                isFavorite: true,
-            },
-        });
-        res.status(200).json(contact);      
+    try {
+        try {
+            const contact = await prisma.contact.update({
+                where: {
+                    id: Number(contactId),
+                    isFavorite: false
+                },
+                data: {
+                    isFavorite: true,
+                },
+            });
+            res.status(200).send(contact); 
+        } catch {
+            const contact = await prisma.contact.update({
+                where: {
+                    id: Number(contactId),
+                    isFavorite: true
+                },
+                data: {
+                    isFavorite: false,
+                },
+            });
+            res.status(200).send(contact); 
+        }           
     } catch (error) {
-        res.status(500).json({ error: 'Error updating contact' });                  
+        res.status(400).send('Error updating contact');                  
     }
-};  
-
+};
 
 export const recoverContact = async (req: Request, res: Response) => {
     const { contactId } = req.params;   

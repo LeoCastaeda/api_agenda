@@ -9,5 +9,6 @@ router.put('/contacts/:contactId', updateContact);
 router.patch('/contacts/:contactId/favorites', markAsFavorite);
 router.patch('/contacts/:contactId/recover', recoverContact);
 router.get('/contacts', getContacts);
+router.get('/contacts/:contactId', getContact);
 
 export default router;

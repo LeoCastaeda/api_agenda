@@ -18,51 +18,60 @@ export const createUser = async (req: Request, res: Response) => {
     }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
-    const { userId, name } = req.body;
+export const updateUser = async (req: Request, res: Response): Promise<void> => {
+    const { userId } = req.params;
+    const { name } = req.body;
 
-    try {    
+    try {
         const user = await prisma.user.update({
             where: {
-                id: userId,
+                id: Number(userId),
             },
             data: {
                 name,
             },
         });
-        res.status(200).json(user); 
+        res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ error: 'Error updating user' });
     }
-}        
+};
 
-export const getUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: Request, res: Response): Promise<void> => {
     const { userId } = req.params;
 
-    try {
-        const user = await prisma.user.findUnique({ where: { id: Number(userId) } });
+    try {           
+        const user = await prisma.user.delete({
+            where: {
+                id: Number(userId),
+            },
+        });
         res.status(200).json(user);
-    } catch (error) {    
-        res.status(500).json({ error: 'Error getting user' });
-    }
-}    
+    } catch (error) {         
+        res.status(500).json({ error: 'Error deleting user' });
+    }    
+};
 
-export const getUsers = async (req: Request, res: Response) => {    
+export const getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
-        const users = await prisma.user.findMany();                 
+        const users = await prisma.user.findMany();
         res.status(200).json(users);
-    } catch (error) {    
+    } catch (error) {
         res.status(500).json({ error: 'Error getting users' });
     }
-}           
+};
 
-export const deleteUser = async (req: Request, res: Response) => {    
-    const { userId } = req.params;                                  
+export const getUser = async (req: Request, res: Response): Promise<void> => {
+    const { userId } = req.params;
 
-    try {
-        const user = await prisma.user.delete({ where: { id: Number(userId) } });                     
+    try {           
+        const user = await prisma.user.findUnique({
+            where: {
+                id: Number(userId),
+            },
+        });
         res.status(200).json(user);
-    } catch (error) {    
-        res.status(500).json({ error: 'Error deleting user' });
-    }
-}   
+    } catch (error) {         
+        res.status(500).json({ error: 'Error getting user' });
+    }    
+};

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.recoverContact = exports.markAsFavorite = exports.deleteContact = exports.updateContact = exports.getContacts = exports.createContact = void 0;
+exports.getContact = exports.recoverContact = exports.markAsFavorite = exports.deleteContact = exports.updateContact = exports.getContacts = exports.createContact = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -85,18 +85,33 @@ exports.deleteContact = deleteContact;
 const markAsFavorite = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contactId } = req.params;
     try {
-        const contact = yield prisma.contact.update({
-            where: {
-                id: Number(contactId),
-            },
-            data: {
-                isFavorite: true,
-            },
-        });
-        res.status(200).json(contact);
+        try {
+            const contact = yield prisma.contact.update({
+                where: {
+                    id: Number(contactId),
+                    isFavorite: false
+                },
+                data: {
+                    isFavorite: true,
+                },
+            });
+            res.status(200).send(contact);
+        }
+        catch (_a) {
+            const contact = yield prisma.contact.update({
+                where: {
+                    id: Number(contactId),
+                    isFavorite: true
+                },
+                data: {
+                    isFavorite: false,
+                },
+            });
+            res.status(200).send(contact);
+        }
     }
     catch (error) {
-        res.status(500).json({ error: 'Error updating contact' });
+        res.status(400).send('Error updating contact');
     }
 });
 exports.markAsFavorite = markAsFavorite;
@@ -118,3 +133,18 @@ const recoverContact = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.recoverContact = recoverContact;
+const getContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { contactId } = req.params;
+    try {
+        const contact = yield prisma.contact.findFirst({
+            where: {
+                id: Number(contactId),
+            }
+        });
+        res.status(200).send(contact);
+    }
+    catch (error) {
+        res.status(404).send('Contact could not be found');
+    }
+});
+exports.getContact = getContact;
