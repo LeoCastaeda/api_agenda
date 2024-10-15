@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getContact = exports.recoverContact = exports.markAsFavorite = exports.deleteContact = exports.updateContact = exports.getContacts = exports.createContact = void 0;
+exports.recoverContact = exports.markAsFavorite = exports.deleteContact = exports.updateContact = exports.getContact = exports.getContacts = exports.createContact = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,10 +24,10 @@ const createContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 userId,
             },
         });
-        res.status(201).json(contact);
+        res.status(201).send(contact);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error creating contact' });
+        res.status(400).send('Contact could not be created');
     }
 });
 exports.createContact = createContact;
@@ -35,16 +35,31 @@ const getContacts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const contacts = yield prisma.contact.findMany({
             where: {
-                userId: Number(req.params.userId),
-            },
+                isDeleted: false
+            }
         });
-        res.status(200).json(contacts);
+        res.status(200).send(contacts);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error getting contacts' });
+        res.status(404).send('Contacts could not be found');
     }
 });
 exports.getContacts = getContacts;
+const getContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { contactId } = req.params;
+    try {
+        const contact = yield prisma.contact.findFirst({
+            where: {
+                id: Number(contactId),
+            }
+        });
+        res.status(200).send(contact);
+    }
+    catch (error) {
+        res.status(404).send('Contact could not be found');
+    }
+});
+exports.getContact = getContact;
 const updateContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contactId } = req.params;
     const { firstName, lastName, email, phone } = req.body;
@@ -60,25 +75,28 @@ const updateContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 phone,
             },
         });
-        res.status(200).json(contact);
+        res.status(200).send(contact);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error updating contact' });
+        res.status(400).send('Contact could not be updated');
     }
 });
 exports.updateContact = updateContact;
 const deleteContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contactId } = req.params;
     try {
-        const contact = yield prisma.contact.delete({
+        const contact = yield prisma.contact.update({
             where: {
                 id: Number(contactId),
             },
+            data: {
+                isDeleted: true,
+            },
         });
-        res.status(200).json(contact);
+        res.status(204).send(contact);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error deleting contact' });
+        res.status(400).send('Contact could not be deleted');
     }
 });
 exports.deleteContact = deleteContact;
@@ -123,28 +141,13 @@ const recoverContact = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 id: Number(contactId),
             },
             data: {
-                isFavorite: false,
+                isDeleted: false,
             },
-        });
-        res.status(200).json(contact);
-    }
-    catch (error) {
-        res.status(500).json({ error: 'Error updating contact' });
-    }
-});
-exports.recoverContact = recoverContact;
-const getContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { contactId } = req.params;
-    try {
-        const contact = yield prisma.contact.findFirst({
-            where: {
-                id: Number(contactId),
-            }
         });
         res.status(200).send(contact);
     }
     catch (error) {
-        res.status(404).send('Contact could not be found');
+        res.status(400).send('Contact could not be restored');
     }
 });
-exports.getContact = getContact;
+exports.recoverContact = recoverContact;

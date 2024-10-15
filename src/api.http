@@ -3,7 +3,7 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "Leonardo Castañeda"
+  "name": "Arnau Vida"
 }
 
 ###
@@ -15,30 +15,31 @@ Accept: application/json
 ###
 
 ### Obtener un usuario por ID
-GET http://localhost:3000/users/1
+GET http://localhost:3000/users/6
 Accept: application/json
 
 ###
 
 ### Actualizar un usuario
-PUT http://localhost:3000/users
+PUT   http://localhost:3000/users/5
 Content-Type: application/json
 
 {
-  "userId": 1,
-  "name": "Leonardo C."
+  "userId": 5,
+  "name": "juan."
 }
 
 ###
 
 ### Eliminar un usuario
-DELETE http://localhost:3000/users/1
+DELETE http://localhost:3000/users/7
 Accept: application/json
 
 ###
 
 ### Crear un contacto para un usuario
-POST http://localhost:3000/contacts
+
+POST http://localhost:3000/contacts/
 Content-Type: application/json
 
 {
@@ -47,52 +48,54 @@ Content-Type: application/json
   "email": "maldita.nerea@email.com",
   "phone": "555-9876",
   "isFavorite": false,
-  "userId": 1
+  "userId": 5
 }
+
+
 
 ###
 
 ### Obtener todos los contactos
-GET http://localhost:3000/contacts
+GET http://localhost:3000/contacts/
 Accept: application/json
 
 ###
 
 ### Obtener un contacto por ID
-GET http://localhost:3000/contacts/6
+GET http://localhost:3000/contacts/8
 Accept: application/json
 
 ###
 
 ### Actualizar un contacto
-PUT http://localhost:3000/contacts/1
+PUT http://localhost:3000/contacts/8
 Content-Type: application/json
 
 {
-  "firstName": "Carlos",
+  "firstName": "Carlos Luis",
   "lastName": "Gomez Arana",
   "email": "carlos.gomezarana@email.com",
   "phone": "555-6543",
-  "isFavorite": false,
-  "userId": 1
+  "isFavorite": true,
+  "userId": 5
 }
 
 ###
 
 ### Eliminar un contacto
-DELETE http://localhost:3000/contacts/6
+DELETE http://localhost:3000/contacts/8
 Accept: application/json
 
 ###
 
 ### Recuperar un contacto
 
-PATCH http://localhost:3000/contacts/6/recover
+PATCH http://localhost:3000/contacts/8/recover
 Accept: application/json
 
 ###
 
 ### Marcar un contacto como favorito y al contrario
 
-PATCH http://localhost:3000/contacts/6/favorites
+PATCH http://localhost:3000/contacts/8/favorites
 Accept: application/json

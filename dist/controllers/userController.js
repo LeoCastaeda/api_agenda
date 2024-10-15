@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUser = exports.getUsers = exports.deleteUser = exports.updateUser = exports.createUser = void 0;
+exports.deleteUser = exports.getUsers = exports.getUser = exports.updateUser = exports.createUser = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,16 +28,13 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.createUser = createUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId } = req.params;
-    const { name } = req.body;
+    const { userId, name } = req.body;
     try {
         const user = yield prisma.user.update({
-            where: {
-                id: Number(userId),
-            },
+            where: { id: Number(userId) },
             data: {
-                name,
-            },
+                name
+            }
         });
         res.status(200).json(user);
     }
@@ -46,21 +43,17 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateUser = updateUser;
-const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     try {
-        const user = yield prisma.user.delete({
-            where: {
-                id: Number(userId),
-            },
-        });
+        const user = yield prisma.user.findUnique({ where: { id: Number(userId) } });
         res.status(200).json(user);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error deleting user' });
+        res.status(500).json({ error: 'Error getting user' });
     }
 });
-exports.deleteUser = deleteUser;
+exports.getUser = getUser;
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield prisma.user.findMany();
@@ -71,18 +64,15 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUsers = getUsers;
-const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
+    const numericUserId = Number(userId);
     try {
-        const user = yield prisma.user.findUnique({
-            where: {
-                id: Number(userId),
-            },
-        });
+        const user = yield prisma.user.delete({ where: { id: numericUserId } });
         res.status(200).json(user);
     }
     catch (error) {
-        res.status(500).json({ error: 'Error getting user' });
+        res.status(500).json({ error: 'Error deleting user' });
     }
 });
-exports.getUser = getUser;
+exports.deleteUser = deleteUser;
