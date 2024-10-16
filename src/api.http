@@ -62,13 +62,13 @@ Accept: application/json
 ###
 
 ### Obtener un contacto por ID
-agenda_leo
+
 GET http://localhost:3000/contacts/8
  
 ###
 
 ### Actualizar un contacto
-agenda_leo
+
 PUT http://localhost:3000/contacts/8
 Content-Type: application/json
 
