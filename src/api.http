@@ -62,12 +62,13 @@ Accept: application/json
 ###
 
 ### Obtener un contacto por ID
+agenda_leo
 GET http://localhost:3000/contacts/8
-Accept: application/json
-
+ 
 ###
 
 ### Actualizar un contacto
+agenda_leo
 PUT http://localhost:3000/contacts/8
 Content-Type: application/json
 
@@ -78,11 +79,13 @@ Content-Type: application/json
   "phone": "555-6543",
   "isFavorite": true,
   "userId": 5
+
 }
 
-###
+
 
 ### Eliminar un contacto
+
 DELETE http://localhost:3000/contacts/8
 Accept: application/json
 
@@ -98,4 +101,17 @@ Accept: application/json
 ### Marcar un contacto como favorito y al contrario
 
 PATCH http://localhost:3000/contacts/8/favorites
+
+###
+
+### Recuperar un contacto
+
+PATCH http://localhost:3000/contacts/6/recover
+Accept: application/json
+
+###
+
+### Marcar un contacto como favorito y al contrario
+
+PATCH http://localhost:3000/contacts/6/favorites
 Accept: application/json

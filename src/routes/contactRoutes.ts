@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { createContact, getContacts, updateContact, deleteContact, markAsFavorite, recoverContact, getContact } from '../controllers/contactController';
+ 
 
 const router = Router();
 
