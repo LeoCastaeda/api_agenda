@@ -138,4 +138,3 @@ export const recoverContact = async (req: Request, res: Response) => {
         res.status(400).send('Contact could not be restored');                  
     }   
 };
-

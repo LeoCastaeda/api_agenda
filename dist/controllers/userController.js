@@ -31,12 +31,10 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const { userId, name } = req.body;
     try {
         const user = yield prisma.user.update({
-            where: {
-                id: userId,
-            },
+            where: { id: Number(userId) },
             data: {
-                name,
-            },
+                name
+            }
         });
         res.status(200).json(user);
     }
@@ -68,8 +66,9 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getUsers = getUsers;
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
+    const numericUserId = Number(userId);
     try {
-        const user = yield prisma.user.delete({ where: { id: Number(userId) } });
+        const user = yield prisma.user.delete({ where: { id: numericUserId } });
         res.status(200).json(user);
     }
     catch (error) {

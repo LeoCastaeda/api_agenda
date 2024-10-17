@@ -21,22 +21,22 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const { userId, name } = req.body;
+    const  { userId, name } = req.body;
 
-    try {    
+    try { 
         const user = await prisma.user.update({
-            where: {
-                id: userId,
-            },
+            where: { id: Number(userId) },
             data: {
-                name,
-            },
+                name
+            }            
         });
-        res.status(200).json(user); 
-    } catch (error) {
+        res.status(200).json(user);
+    } catch (error) {    
         res.status(500).json({ error: 'Error updating user' });
     }
-}        
+}   
+
+       
 
 export const getUser = async (req: Request, res: Response) => {
     const { userId } = req.params;
@@ -59,10 +59,11 @@ export const getUsers = async (req: Request, res: Response) => {
 }           
 
 export const deleteUser = async (req: Request, res: Response) => {    
-    const { userId } = req.params;                                  
+    const { userId } = req.params; 
+    const numericUserId = Number(userId);                                 
 
     try {
-        const user = await prisma.user.delete({ where: { id: Number(userId) } });                     
+        const user = await prisma.user.delete({ where: { id:  numericUserId } });                     
         res.status(200).json(user);
     } catch (error) {    
         res.status(500).json({ error: 'Error deleting user' });
