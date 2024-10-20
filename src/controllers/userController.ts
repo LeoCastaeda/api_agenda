@@ -21,7 +21,7 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const  { userId, name } = req.body;
+    const { userId, name } = req.body; 
 
     try { 
         const user = await prisma.user.update({
@@ -34,7 +34,7 @@ export const updateUser = async (req: Request, res: Response) => {
     } catch (error) {    
         res.status(500).json({ error: 'Error updating user' });
     }
-}   
+}
 
        
 

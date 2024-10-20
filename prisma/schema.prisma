@@ -23,7 +23,7 @@ model Contact {
   id         Int      @id @default(autoincrement())
   firstName  String
   lastName   String
-  email      String   @unique
+  email      String   
   phone      String
   isFavorite  Boolean  @default(false)
   isDeleted Boolean @default(false)
@@ -31,4 +31,3 @@ model Contact {
   user       User     @relation(fields: [userId], references: [id])
 }
 
-export {prisma}
