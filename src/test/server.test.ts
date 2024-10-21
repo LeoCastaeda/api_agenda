@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../src/server'; 
-import { prisma } from '../src/controllers/contactController';
+import app from '../server'; 
+import { prisma } from '../controllers/contactController';
 
 
 describe('User API', () => {

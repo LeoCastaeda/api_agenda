@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
-const server_1 = __importDefault(require("../src/server"));
-const contactController_1 = require("../src/controllers/contactController");
+const server_1 = __importDefault(require("../server"));
+const contactController_1 = require("../controllers/contactController");
 describe('User API', () => {
     let userId;
     afterEach(() => __awaiter(void 0, void 0, void 0, function* () {
