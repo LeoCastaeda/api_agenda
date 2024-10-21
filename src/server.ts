@@ -3,17 +3,17 @@ import userRoutes from './routes/userRoutes';
 import contactRoutes from './routes/contactRoutes';
 import { errorHandler } from './middleware/errorHandler';
 
-const app = express();
+const App = express();
 const port = 3000;
 
-app.use(express.json());
-app.use(userRoutes);
-app.use(contactRoutes);
-app.use(errorHandler);
+App.use(express.json());
+App.use(userRoutes);
+App.use(contactRoutes);
+App.use(errorHandler);
 
-app.listen(port, () => {
+const app = App.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
 
-export default app
+export default app  
 

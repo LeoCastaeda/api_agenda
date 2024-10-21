@@ -2,12 +2,6 @@ import request from 'supertest';
 import app from '../src/server'; 
 import { prisma } from '../src/controllers/contactController';
 
-afterAll(async () => {
-  
-  await prisma.contact.deleteMany({});
-  await prisma.user.deleteMany({});
-  await prisma.$disconnect(); 
-});
 
 describe('User API', () => {
   let userId: any;
@@ -150,4 +144,12 @@ describe('Contact API', () => {
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty('isDeleted', false);
   });
+});
+
+
+afterAll(async () => {
+  
+  await prisma.contact.deleteMany({});
+  await prisma.user.deleteMany({});
+  await prisma.$disconnect(); 
 });
