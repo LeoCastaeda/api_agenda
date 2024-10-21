@@ -115,11 +115,11 @@ npm test
 bash
 Copiar código
 src/
-├── controllers/    
-├── models/         
-├── routes/         
-├── server/             
-└── tests/          
+ ├── controllers/    
+ ├── models/prisma         
+ ├── routes/                    
+ └── tests/
+└── server/        
 ```
  
 ## Contribuciones
