@@ -9,6 +9,7 @@ Una API REST creada con Express y TypeScript que permite a los usuarios crear y 
 - Prisma
 - TypeScript
 - Nodemon
+- Extensión REST Client para VS Code
 
 ## Instalación
 
@@ -34,6 +35,10 @@ bash
 Copiar código
 npx prisma migrate dev --name init
 ```
+### Compila el proyecto de TypeScript a JavaScript:
+```
+npx tsc
+```
 
 ### Inicia el servidor:
 ```
@@ -44,22 +49,23 @@ nodemon dist/index.js
 
 
 ### Funcionalidades
+
 ## Nivel 1
 
 
 Implementa las siguientes funcionalidades para la gestión de contactos:
 
-POST /contacts → Añadir un contacto a la lista.
+- **POST** /contacts → Añadir un contacto a la lista.
 
-DELETE /contacts/:contactId → Eliminar un contacto de la lista.
+- **DELETE** /contacts/:contactId → Eliminar un contacto de la lista.
 
-PUT /contacts/:contactId → Actualizar la información de un contacto.
+- **PUT** /contacts/:contactId → Actualizar la información de un contacto.
 
-PATCH /contacts/:contactId/favorites → Marcar o desmarcar un contacto como preferido.
+- **PATCH** /contacts/:contactId/favorites → Marcar o desmarcar un contacto como preferido.
 
-PATCH /contacts/:contactId/recover → Recuperar un contacto eliminado.
+- **PATCH** /contacts/:contactId/recover → Recuperar un contacto eliminado.
 
-GET /contacts → Mostrar la lista de contactos.
+- GET /contacts → Mostrar la lista de contactos.
 
 ### Gestión de errores
 
@@ -67,20 +73,22 @@ La API devuelve mensajes personalizados en los siguientes casos:
 
 - Intento de crear un contacto con un formato incorrecto.
 - Intento de buscar, actualizar o eliminar un contacto inexistente.
+
 ## Nivel 2
 
 Añade la gestión de usuarios para que cada usuario pueda tener su propia lista de contactos:
 
-POST /users → Crear un usuario.
+- **POST** /users → Crear un usuario.
 
-PATCH /users/{userId} → Modificar el nombre del usuario.
-POST /contacts/{userId} → Añadir un contacto a la lista de un usuario.
+- **PATCH** /users/{userId} → Modificar el nombre del usuario.
 
-GET /contacts/{userId} → Mostrar la lista de contactos de un usuario, ordenados alfabéticamente por nombre.
+- **POST** /contacts/{userId} → Añadir un contacto a la lista de un usuario.
 
-GET /contacts/{userId}/favorites → Mostrar a un usuario sus contactos marcados como preferidos.
+- **GET** /contacts/{userId} → Mostrar la lista de contactos de un usuario, ordenados alfabéticamente por nombre.
 
-GET /contacts/{userId}/deleted → Mostrar a un usuario los contactos que ha eliminado.
+- **GET** /contacts/{userId}/favorites → Mostrar a un usuario sus contactos marcados como preferidos.
+
+- **GET** /contacts/{userId}/deleted → Mostrar a un usuario los contactos que ha eliminado.
 
 ## Nivel 3
 Añade pruebas para comprobar el correcto funcionamiento de cada endpoint.
@@ -99,7 +107,9 @@ npm test
 - MySQL: Base de datos relacional utilizada para la persistencia de datos.
 - Prisma: ORM utilizado para interactuar con la base de datos.
 - Jest: Framework de testing para realizar pruebas unitarias.
-- Estructura del proyecto
+- Supertest: Permite peticiones a APIs/http y evalua las respuestas.
+
+### Estructura del proyecto
 - El proyecto sigue la arquitectura MVC (Modelo-Vista-Controlador), organizada de la siguiente manera:
 ```
 bash
