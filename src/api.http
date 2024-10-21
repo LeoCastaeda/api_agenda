@@ -3,7 +3,7 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "Arnau Vida"
+  "name": "Arnau Vidas"
 }
 
 ###
@@ -15,13 +15,13 @@ Accept: application/json
 ###
 
 ### Obtener un usuario por ID
-GET http://localhost:3000/users/6
+GET http://localhost:3000/users/12
 Accept: application/json
 
 ###
 
 ### Actualizar un usuario
-PUT   http://localhost:3000/users/10
+PUT   http://localhost:3000/users/12
 Content-Type: application/json
 
 {
@@ -32,7 +32,7 @@ Content-Type: application/json
 ###
 
 ### Eliminar un usuario
-DELETE http://localhost:3000/users/2
+DELETE http://localhost:3000/users/10
 Accept: application/json
 
 ###
@@ -45,7 +45,7 @@ Content-Type: application/json
 {
   "firstName": "Maildita",
   "lastName": "Nerea",
-  "email": "maldita.nerea@email.com",
+  "email": "malditta.nerea@email.com",
   "phone": "555-9876",
   "isFavorite": false,
   "userId": 5
@@ -63,19 +63,19 @@ Accept: application/json
 
 ### Obtener un contacto por ID
 
-GET http://localhost:3000/contacts/8
+GET http://localhost:3000/contacts/66
  
 ###
 
 ### Actualizar un contacto
 
-PUT http://localhost:3000/contacts/8
+PUT http://localhost:3000/contacts/66
 Content-Type: application/json
 
 {
   "firstName": "Carlos Luis",
   "lastName": "Gomez Arana",
-  "email": "carlos.gomezarana@email.com",
+  "email": "carlos.gomezara@email.com",
   "phone": "555-6543",
   "isFavorite": true,
   "userId": 5
@@ -86,32 +86,21 @@ Content-Type: application/json
 
 ### Eliminar un contacto
 
-DELETE http://localhost:3000/contacts/8
+DELETE http://localhost:3000/contacts/66
 Accept: application/json
 
 ###
 
 ### Recuperar un contacto
 
-PATCH http://localhost:3000/contacts/8/recover
+PATCH http://localhost:3000/contacts/66/recover
 Accept: application/json
 
 ###
 
 ### Marcar un contacto como favorito y al contrario
 
-PATCH http://localhost:3000/contacts/8/favorites
+PATCH http://localhost:3000/contacts/66/favorites
 
-###
 
-### Recuperar un contacto
 
-PATCH http://localhost:3000/contacts/6/recover
-Accept: application/json
-
-###
-
-### Marcar un contacto como favorito y al contrario
-
-PATCH http://localhost:3000/contacts/6/favorites
-Accept: application/json

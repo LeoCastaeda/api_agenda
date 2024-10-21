@@ -9,13 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.recoverContact = exports.markAsFavorite = exports.deleteContact = exports.updateContact = exports.getContact = exports.getContacts = exports.createContact = void 0;
+exports.recoverContact = exports.markAsFavorite = exports.deleteContact = exports.updateContact = exports.getContact = exports.getContacts = exports.createContact = exports.prisma = void 0;
 const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
+exports.prisma = new client_1.PrismaClient();
 const createContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, firstName, lastName, email, phone } = req.body;
     try {
-        const contact = yield prisma.contact.create({
+        const userExists = yield exports.prisma.user.findUnique({
+            where: { id: userId },
+        });
+        const contact = yield exports.prisma.contact.create({
             data: {
                 firstName,
                 lastName,
@@ -33,9 +36,12 @@ const createContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.createContact = createContact;
 const getContacts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const contacts = yield prisma.contact.findMany({
+        const contacts = yield exports.prisma.contact.findMany({
             where: {
                 isDeleted: false
+            },
+            orderBy: {
+                firstName: 'asc'
             }
         });
         res.status(200).send(contacts);
@@ -48,7 +54,7 @@ exports.getContacts = getContacts;
 const getContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contactId } = req.params;
     try {
-        const contact = yield prisma.contact.findFirst({
+        const contact = yield exports.prisma.contact.findFirst({
             where: {
                 id: Number(contactId),
             }
@@ -64,7 +70,7 @@ const updateContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const { contactId } = req.params;
     const { firstName, lastName, email, phone } = req.body;
     try {
-        const contact = yield prisma.contact.update({
+        const contact = yield exports.prisma.contact.update({
             where: {
                 id: Number(contactId),
             },
@@ -85,7 +91,7 @@ exports.updateContact = updateContact;
 const deleteContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contactId } = req.params;
     try {
-        const contact = yield prisma.contact.update({
+        const contact = yield exports.prisma.contact.update({
             where: {
                 id: Number(contactId),
             },
@@ -93,7 +99,7 @@ const deleteContact = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 isDeleted: true,
             },
         });
-        res.status(204).send(contact);
+        res.status(200).send(contact);
     }
     catch (error) {
         res.status(400).send('Contact could not be deleted');
@@ -104,7 +110,7 @@ const markAsFavorite = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { contactId } = req.params;
     try {
         try {
-            const contact = yield prisma.contact.update({
+            const contact = yield exports.prisma.contact.update({
                 where: {
                     id: Number(contactId),
                     isFavorite: false
@@ -116,7 +122,7 @@ const markAsFavorite = (req, res) => __awaiter(void 0, void 0, void 0, function*
             res.status(200).send(contact);
         }
         catch (_a) {
-            const contact = yield prisma.contact.update({
+            const contact = yield exports.prisma.contact.update({
                 where: {
                     id: Number(contactId),
                     isFavorite: true
@@ -136,7 +142,7 @@ exports.markAsFavorite = markAsFavorite;
 const recoverContact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contactId } = req.params;
     try {
-        const contact = yield prisma.contact.update({
+        const contact = yield exports.prisma.contact.update({
             where: {
                 id: Number(contactId),
             },

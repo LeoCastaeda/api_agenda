@@ -9,13 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.getUsers = exports.getUser = exports.updateUser = exports.createUser = void 0;
+exports.deleteUser = exports.getUsers = exports.getUser = exports.updateUser = exports.createUser = exports.prisma = void 0;
 const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
+exports.prisma = new client_1.PrismaClient();
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name } = req.body;
     try {
-        const user = yield prisma.user.create({
+        const user = yield exports.prisma.user.create({
             data: {
                 name,
             },
@@ -30,7 +30,7 @@ exports.createUser = createUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, name } = req.body;
     try {
-        const user = yield prisma.user.update({
+        const user = yield exports.prisma.user.update({
             where: { id: Number(userId) },
             data: {
                 name
@@ -46,7 +46,7 @@ exports.updateUser = updateUser;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     try {
-        const user = yield prisma.user.findUnique({ where: { id: Number(userId) } });
+        const user = yield exports.prisma.user.findUnique({ where: { id: Number(userId) } });
         res.status(200).json(user);
     }
     catch (error) {
@@ -56,7 +56,7 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getUser = getUser;
 const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield prisma.user.findMany();
+        const users = yield exports.prisma.user.findMany();
         res.status(200).json(users);
     }
     catch (error) {
@@ -68,7 +68,7 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const { userId } = req.params;
     const numericUserId = Number(userId);
     try {
-        const user = yield prisma.user.delete({ where: { id: numericUserId } });
+        const user = yield exports.prisma.user.delete({ where: { id: numericUserId } });
         res.status(200).json(user);
     }
     catch (error) {

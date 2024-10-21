@@ -7,12 +7,13 @@ const express_1 = __importDefault(require("express"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const contactRoutes_1 = __importDefault(require("./routes/contactRoutes"));
 const errorHandler_1 = require("./middleware/errorHandler");
-const app = (0, express_1.default)();
+const App = (0, express_1.default)();
 const port = 3000;
-app.use(express_1.default.json());
-app.use(userRoutes_1.default);
-app.use(contactRoutes_1.default);
-app.use(errorHandler_1.errorHandler);
-app.listen(port, () => {
+App.use(express_1.default.json());
+App.use(userRoutes_1.default);
+App.use(contactRoutes_1.default);
+App.use(errorHandler_1.errorHandler);
+const app = App.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
+exports.default = app;
