@@ -44,7 +44,7 @@ npx tsc
 ```
 bash
 Copiar código
-nodemon dist/index.js
+npm run start
 ```
 
 
