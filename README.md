@@ -15,7 +15,7 @@ Una API REST creada con Express y TypeScript que permite a los usuarios crear y 
 
 1. Clona el repositorio:
    ```bash
-   git clone <https://github.com/LeoCastaeda/api_agenda>
+   git clone https://github.com/LeoCastaeda/api_agenda.git
 
 2. Instala dependencias:
 
@@ -44,7 +44,7 @@ npx tsc
 ```
 bash
 Copiar código
-nodemon dist/index.js
+npm run start
 ```
 
 
