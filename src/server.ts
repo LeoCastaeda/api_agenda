@@ -11,9 +11,9 @@ App.use(userRoutes);
 App.use(contactRoutes);
 App.use(errorHandler);
 
-const app = App.listen(port, () => {
+export const server = App.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
 
-export default app  
+
 

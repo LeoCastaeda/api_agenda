@@ -1,65 +1,56 @@
 import request from 'supertest';
-import app from '../server'; 
+import { server } from '../server';
 import { prisma } from '../controllers/contactController';
 
 
 describe('User API', () => {
-  let userId: any;
 
-  
-  afterEach(async () => {
-    if (userId) {
-      await request(app).delete(`/users/${userId}`);
-    }
-  });
 
-  
   it('should create a new user', async () => {
-    const res = await request(app)
+    const res = await request(server)
       .post('/users')
       .send({ name: 'John Doe' });
 
     expect(res.statusCode).toEqual(201);
-    userId = res.body.id; 
     expect(res.body).toHaveProperty('id');
     expect(res.body.name).toBe('John Doe');
   });
 
-  
-  it('should return 500 if name is missing', async () => {
-    const res = await request(app)
-      .post('/users')
-      .send({}); 
 
-    expect(res.statusCode).toEqual(500);
+  it('should return 422 if name is missing', async () => {
+    const res = await request(server)
+      .post('/users')
+      .send({});
+
+    expect(res.statusCode).toEqual(422);
     expect(res.body).toHaveProperty('error');
   });
 
-  
+
   it('should update user name', async () => {
-    
-    const createRes = await request(app)
+
+    const createRes = await request(server)
       .post('/users')
       .send({ name: 'Old Name' });
 
     const userId = createRes.body.id;
 
-   
-    const res = await request(app)
+
+    const res = await request(server)
       .put(`/users/${userId}`)
       .send({
-        userId: userId, 
-        name: 'Updated Name', 
+        userId: userId,
+        name: 'Updated Name',
       });
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body.name).toBe('Updated Name'); 
+    expect(res.body.name).toBe('Updated Name');
   });
 
-  
-  it('should return 404 if user not found', async () => {
-    const res = await request(app)
-      .patch('/users/9999')
+
+  it('should return 400 if user not found', async () => {
+    const res = await request(server)
+      .put('/users/9999')
       .send({ name: 'New Name' });
 
     expect(res.statusCode).toEqual(404);
@@ -71,13 +62,13 @@ describe('Contact API', () => {
   let contactId: any;
 
   beforeAll(async () => {
-  
+
     const userRes = await prisma.user.create({
       data: { name: 'Test User' },
     });
     userId = userRes.id;
 
-    
+
     const contact = await prisma.contact.create({
       data: {
         firstName: 'John',
@@ -87,15 +78,15 @@ describe('Contact API', () => {
         userId,
       },
     });
-    contactId = contact.id; 
+    contactId = contact.id;
   });
 
-  
+
   it('should create a new contact for a user', async () => {
-    const contactRes = await request(app)
+    const contactRes = await request(server)
       .post('/contacts')
       .send({
-        userId,  
+        userId,
         firstName: 'Ja',
         lastName: 'Smit',
         email: 'jasmith@ex.com',
@@ -106,7 +97,7 @@ describe('Contact API', () => {
     expect(contactRes.body).toHaveProperty('id');
   });
 
-  
+
   it('should get user contacts in alphabetical order', async () => {
     await prisma.contact.createMany({
       data: [
@@ -115,31 +106,31 @@ describe('Contact API', () => {
       ],
     });
 
-    const res = await request(app).get('/contacts').send();
+    const res = await request(server).get('/contacts').send();
 
     expect(res.statusCode).toEqual(200);
     expect(res.body[0].firstName).toBe('Alice');
     expect(res.body[1].firstName).toBe('Charlie');
   });
 
- 
+
   it('should mark a contact as favorite', async () => {
-    const res = await request(app).patch(`/contacts/${contactId}/favorites`);
+    const res = await request(server).patch(`/contacts/${contactId}/favorites`);
 
     expect(res.statusCode).toEqual(200);
-    expect(res.body.isFavorite).toBe(true); 
+    expect(res.body.isFavorite).toBe(true);
   });
 
-  
+
   it('should delete a contact', async () => {
-    const res = await request(app).delete(`/contacts/${contactId}`);
+    const res = await request(server).delete(`/contacts/${contactId}`);
 
-    expect(res.statusCode).toEqual(200); 
+    expect(res.statusCode).toEqual(200);
   });
 
-  
+
   it('should recover a deleted contact', async () => {
-    const res = await request(app).patch(`/contacts/${contactId}/recover`); 
+    const res = await request(server).patch(`/contacts/${contactId}/recover`);
 
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty('isDeleted', false);
@@ -148,8 +139,8 @@ describe('Contact API', () => {
 
 
 afterAll(async () => {
-  
+
   await prisma.contact.deleteMany({});
   await prisma.user.deleteMany({});
-  await prisma.$disconnect(); 
+  server.close()
 });
